@@ -1,0 +1,25 @@
+{
+    "name": "Key Store Device",
+    "description": "This extension will store your key in a hardware device respective to the URL you are on.And you can use this extension to get the key from the device and use it in the website. ",
+    "version": "1.0",
+    "permissions": [
+      "activeTab"
+
+    ],
+    "browser_action": {
+
+      "default_popup": "popup.html"
+    },
+    "content_scripts": [
+      {
+        
+        "matches": ["*://*/*"],
+        "js" : ["content.js"],
+        "css" : ["content.css"]
+      }
+  
+    ], 
+    "manifest_version": 2
+    
+  }
+  
