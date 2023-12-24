@@ -233,12 +233,13 @@ let loadingPage = {
     let loopTimer = setInterval(() => {
       if (receivedData.includes("}")) {
         //convert the string to object
-        let tmpObf = JSON.parse(receivedData);
-        console.log(tmpObf);
-        if (tmpObf.type === "Y") {
+        receivedDataObj = JSON.parse(receivedData);
+        console.log(receivedDataObj);
+        if (receivedDataObj.type === "Y") {
           loadingPage.destroy();
           successPage.init();
         } else {
+          window.alert("Can't verify your account!");
           loadingPage.destroy();
           verifyPage.init();
         }
@@ -379,9 +380,26 @@ let successPage = {
 </div>`,
   usernameCopyFunc: () => {
     console.log("usernameCopy");
+    //copy the username to the clipboard
+    navigator.clipboard.writeText(receivedDataObj.username);
   },
   passwordCopyFunc: () => {
     console.log("passwordCopy");
+    //copy the password to the clipboard
+    navigator.clipboard.writeText(receivedDataObj.password);
+  },
+  autoCopy: () => {
+    let inputs = document.querySelectorAll("input");
+    //check each of them if its type is passsword
+    for (let i = 0; i < inputs.length; i++) {
+      if (inputs[i].type === "password") {
+        //fill the password input with the password
+        inputs[i].value = receivedDataObj.password;
+        if (i != 0) {
+          inputs[i - 1].value = receivedDataObj.username;
+        }
+      }
+    }
   },
   init: () => {
     document.getElementById("mainArea").innerHTML = successPage.body;
@@ -395,6 +413,7 @@ let successPage = {
       "click",
       successPage.passwordCopyFunc
     );
+    successPage.autoCopy();
     state = "successPage";
   },
   destroy: () => {
@@ -596,6 +615,7 @@ let userData = {
   id: "1234567890",
 };
 let receivedData = "";
+let receivedDataObj = {};
 let html = "";
 let state = "";
 var serial = {};
@@ -714,6 +734,7 @@ serial.Port.prototype.disconnect = function () {
 
 serial.Port.prototype.send = function (data) {
   receivedData = "";
+  receivedDataObj = {};
   return this.device_.transferOut(this.endpointOut_, data);
 };
 
