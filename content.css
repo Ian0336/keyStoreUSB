@@ -103,14 +103,14 @@
 }
 /* close button */
 
-/* retry button */
-.retryBTNContainer{
+/* shrinkBTN button */
+.shrinkBTNContainer{
   position: absolute;
   left: 13px;
   top: 13px;
   
 }
-.retryBTN {
+.shrinkBTN {
   background-color: white;
   border: none;
 
@@ -119,7 +119,7 @@
   height:20px;
   transition: all 0.3s ease-in-out;
   &:hover {
-    transform: scale(1) rotate(360deg);
+    transform: scale(1);
   }
 }
 /* close button */
