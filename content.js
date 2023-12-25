@@ -91,12 +91,20 @@ let signUpPage = {
   id="usernameInput"
 />
 <input
-  type="text"
+  type="password"
   autocomplete="off"
   name="text"
   class="input"
   placeholder="Password"
   id="passwordInput"
+/>
+<input
+  type="password"
+  autocomplete="off"
+  name="text"
+  class="input"
+  placeholder="Confirm Password"
+  id="conPasswordInput"
 />
 <button id="verifyBtn" class="button">
   <div class="svg-wrapper-1">
@@ -156,13 +164,25 @@ let signUpPage = {
       signUpPage.verifyBtn.disabled = false;
     else signUpPage.verifyBtn.disabled = true;
   },
+  conPasswordFunc: (e) => {
+    signUpPage.conPasswordText = e.target.value;
+    if (
+      signUpPage.usernameText.length > 0 &&
+      signUpPage.passwordText.length > 0 &&
+      signUpPage.conPasswordText === signUpPage.passwordText
+    )
+      signUpPage.verifyBtn.disabled = false;
+    else signUpPage.verifyBtn.disabled = true;
+  },
   usernameText: "",
   passwordText: "",
+  conPasswordText: "",
   init: () => {
     document.getElementById("mainArea").innerHTML = signUpPage.body;
     signUpPage.verifyBtn = document.getElementById("verifyBtn");
     signUpPage.usernameInput = document.getElementById("usernameInput");
     signUpPage.passwordInput = document.getElementById("passwordInput");
+    signUpPage.conPasswordInput = document.getElementById("conPasswordInput");
     signUpPage.verifyBtn.addEventListener("click", signUpPage.verifyFunc);
     signUpPage.usernameInput.addEventListener(
       "change",
@@ -172,10 +192,15 @@ let signUpPage = {
       "change",
       signUpPage.passwordFunc
     );
+    signUpPage.conPasswordInput.addEventListener(
+      "change",
+      signUpPage.conPasswordFunc
+    );
     state = "signUpPage";
     if (
       signUpPage.usernameText.length > 0 &&
-      signUpPage.passwordText.length > 0
+      signUpPage.passwordText.length > 0 &&
+      signUpPage.conPasswordText === signUpPage.passwordText
     )
       signUpPage.verifyBtn.disabled = false;
     else signUpPage.verifyBtn.disabled = true;
@@ -190,6 +215,10 @@ let signUpPage = {
     signUpPage.passwordInput.removeEventListener(
       "change",
       signUpPage.passwordFunc
+    );
+    signUpPage.conPasswordInput.removeEventListener(
+      "change",
+      signUpPage.conPasswordFunc
     );
   },
 };
